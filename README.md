@@ -1,8 +1,4 @@
 # readme
 
-this is my projects's template.
-create base file:
-
-- LICENSE
-- .gitignore
-- .editorconfig
+this repository is global settings for my projects
+.

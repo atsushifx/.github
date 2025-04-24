@@ -1,9 +1,10 @@
+---
 name: 💬 Open Topic
 description: Share ideas, tech questions, or open-ended thoughts.
 title: "[Open] "
 labels: ["discussion"]
 assignees: ["atsushifx"]
-
+---
 body:
   - type: dropdown
     id: category

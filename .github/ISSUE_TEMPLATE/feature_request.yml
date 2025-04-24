@@ -1,10 +1,8 @@
----
 name: ✨ Feature Request
 description: Suggest a new idea or improvement.
-title: "[Feature] "
+title: "[Feature]"
 labels: ["enhancement"]
 assignees: ["atsushifx"]
----
 
 body:
   - type: markdown

@@ -1,0 +1,3 @@
+[Jj]avaScript
+vscode
+github

@@ -1,36 +1,63 @@
-## ignore file for git
+## @(#) : gitignore for textlint filter (skip-frontmatter)
 #
-# @(#) : git ignore file for
+# @version  1.0.1
+# @author   atsushifx <atsushifx@gmail.com>
+# @since    2025-04-25
 #
-# @author	Furukawa, Atsushi <atsushifx@aglabo.com>
-# @version	1.0.0
-# @date		2022-07-25
+# @description<<
 #
-# @description
+# Git ignore rules for development template
+# Includes OS-specific files, VSCode configs, general development artifacts.
 #
 #<<
 
-## # General settings
-##
-# Log files (if you are creating logs in debug mode, uncomment this)
-**.log*
-#	ignore programming
-#  patch
-**.diff
-**.patch
+# ─────────────────────────────
+# General
+# ─────────────────────────────
 
-### Editor's ignore
+# OS-specific
+.DS_Store
+thumbs.db
 
-#  Visual Studio Code
+# Logs / patches
+*.log
+*.diff
+*.patch
+
+# History / cache
+.history/
+.cache/
+**/cache/
+*.tmp
+*.lock
+
+# Backup / swap / temp files
+*~
+~*
+$~*
+*.swp
+
+# ─────────────────────────────
+# Editor: VSCode
+# ─────────────────────────────
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
+!.vscode/cspell*
 
-# Local History for Visual Studio Code
-.history/
+# vale
+# Vale downloaded styles
+.vale/styles/*
+!.vale/styles/myStyle/*
+!.vale/styles/config/*
+!.vale/styles/config/vocabularies/*
+!.vale/styles/config/vocabularies/myStyle/*
 
-# Built Visual Studio Code Extensions
-*.vsix
+
+# ─────────────────────────────
+# Node.js
+# ─────────────────────────────
+node_modules/

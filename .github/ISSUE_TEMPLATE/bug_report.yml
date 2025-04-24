@@ -1,11 +1,9 @@
-
----
 name: 🐛 Bug Report
 description: Report a bug to help us improve the project.
 title: "[Bug]"
-labels:["bug"]
-assignees:["atsushifx"]
----
+labels: ["bug"]
+assignees: ["atsushifx"]
+
 body:
   - type: markdown
     attributes:

@@ -34,6 +34,8 @@ rules:
       allowPeriodMarks:
         - "、"
         - ":"
+        - "✨"
+        - "♡"
     no-doubled-joshi:
       strict: false
 

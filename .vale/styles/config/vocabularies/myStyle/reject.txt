@@ -1,3 +1,2 @@
 [Jj]avaScript
 vscode
-github

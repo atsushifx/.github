@@ -50,4 +50,4 @@ Please confirm the following before requesting review:
 
 ## 💬 Additional Notes
 
-*Optional: Add screenshots, design notes, or concerns for reviewers.*
+*Optional: add screenshots, design notes, or concerns for reviewers.*

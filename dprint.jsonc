@@ -1,8 +1,8 @@
 // @(#) : dprint configuration for project formatting
 //
 // @version   1.0.0
-// @date      2025-04-25
-// @author    atsushifx
+// @since     2025-04-25
+// @author    atsushifx <https://github.com/atsushifx/>
 // @license   MIT
 //
 // @description<<
@@ -29,14 +29,14 @@
     "**/*.jsonc",
     "**/*.yml",
     "**/*.yaml",
-    "shared/configs/**/*"
+    "shared/configs/**/*",
   ],
   "excludes": [
     "**/node_modules/**",
     "**/*lock*",
     "**/lib/**",
     "**/module/**",
-    "**/dist/**"
+    "**/dist/**",
   ],
 
   // Plugins
@@ -44,7 +44,7 @@
     "https://plugins.dprint.dev/typescript-0.93.4.wasm",
     "https://plugins.dprint.dev/json-0.19.4.wasm",
     "https://plugins.dprint.dev/markdown-0.17.8.wasm",
-    "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.5.0.wasm"
+    "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.5.0.wasm",
   ],
 
   // Language-specific settings
@@ -55,9 +55,9 @@
     "preferSingleLine": false,
     "useBraces": "always",
     "arrowFunction.useParentheses": "force",
-    "trailingCommas": "onlyMultiLine"
+    "trailingCommas": "onlyMultiLine",
   },
   "json": {},
   "markdown": {},
-  "yaml": {}
+  "yaml": {},
 }

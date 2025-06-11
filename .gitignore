@@ -24,19 +24,26 @@ thumbs.db
 *.diff
 *.patch
 
-# History / cache
+# env
+.env
+.env.key*
+.env.*
+
+# History
 .history/
+
+# cache
 .cache/
 **/cache/
 **cache
-*.tmp
-*.lock
 
 # Backup / swap / temp files
 *~
 ~*
 $~*
 *.swp
+*.tmp
+*.lock
 
 # ─────────────────────────────
 # Editor: VSCode

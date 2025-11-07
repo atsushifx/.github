@@ -37,6 +37,10 @@ $~*
 
 ## AI generated files
 
+## Coding AI depended
+# CLAUDE.md
+.claude/*
+
 # MCP server dependency files
 .serena/
 .lsmcp/

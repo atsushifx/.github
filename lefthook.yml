@@ -1,17 +1,10 @@
 # src: lefthook.yml
-## @(#) : lefthook config
+# @(#) : lefthook config
 #
-# @version  1.0.1
-# @date     2025-04-25
-# @author   atsushifx <https://github.com/atsushifx/>
-# @license  MIT
+# Copyright (c) 2025 atsushifx <http://github.com/atsushifx>
 #
-# @description<<
-#
-# Git hook configuration powered by Lefthook.
-# Ensures commit hygiene with secret scanning and commit message linting.
-#
-#<<
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
 
 pre-commit:
   parallel: true
@@ -28,28 +21,7 @@ pre-commit:
         --maskSecrets
         "{staged_files}"
 
-    textlint:
-      glob: "**/*.md"
-      run: >
-        textlint
-        --config ./configs/textlintrc.yaml
-        --cache
-        --cache-location .cache/textlint_cache
-        "{staged_files}"
-
-    markdownlint:
-      glob: "**/*.md"
-      run: >
-        markdownlint-cli2
-        --config ./configs/.markdownlint.yaml
-        "{staged_files}"
-
-prepare-commit-msg:
-  commands:
-    prepare-by-codegpt:
-      run: bash -c 'scripts/prepare-commit-msg.sh'
-
-
+# check commit message as Conventional Commit
 commit-msg:
   parallel: true
   commands:

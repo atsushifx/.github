@@ -27,6 +27,8 @@ copyright:
 ## 自動化によるOSS品質保証 - ドキュメントではなく、設定で品質を強制する開発基盤
 
 このリポジトリは、OSS プロジェクトで実際に運用されている共通の開発インフラです。
+GitHub の community health files 機能を活用し、全リポジトリから自動参照される
+ユーザーレベルのデフォルトテンプレートとして機能します。
 Issue・PR テンプレート、自動フォーマット、Lint、セキュリティスキャン、Git Hooks など、
 品質を手動チェックではなく自動化で保証する仕組みを提供します。
 
@@ -48,6 +50,44 @@ Issue・PR テンプレート、自動フォーマット、Lint、セキュリ�
 4. **Zero Manual Checks** - ローカル Hooks と CI/CD の二段構え
 
 ## 🏗 リポジトリ構成
+
+### リポジトリ構造
+
+```bash
+.
+├── .github/                    # GitHub community health files
+│   ├── workflows/              # CI/CD workflows
+│   │   ├── ci-secrets-scan.yml
+│   │   └── codeql-actions-only.yml
+│   ├── ISSUE_TEMPLATE/         # Issue templates (YML format)
+│   │   ├── bug_report.yml
+│   │   ├── feature_request.yml
+│   │   ├── open_topic.yml
+│   │   └── config.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── CODE_of_CONDUCT.md
+│   ├── CODE_of_CONDUCT.ja.md
+│   ├── SECURITY.md
+│   └── FUNDING.yml
+├── configs/                    # 各種Linter/Formatter設定
+│   ├── commitlint.config.js
+│   ├── gitleaks.toml
+│   ├── secretlint.config.yaml
+│   ├── .markdownlint.yaml
+│   ├── textlintrc.yaml
+│   └── .textlint/
+├── scripts/                    # 自動化スクリプト
+│   └── prepare-commit-msg.sh
+├── .vscode/                    # VS Code設定
+│   └── cspell.json
+├── .serena/memories/           # AI アシスタント知識ベース
+├── dprint.jsonc               # コードフォーマット設定
+├── lefthook.yml               # Git Hooks管理
+├── .editorconfig              # エディタ設定
+├── LICENSE / LICENSE.ja       # ライセンス
+├── README.md / README.ja.md   # リポジトリドキュメント
+└── CLAUDE.md                  # AI アシスタント指示書
+```
 
 ### コア機能
 
@@ -150,11 +190,36 @@ git push
 - `style`: スタイル変更
 - `deps`: 依存関係更新
 
+## 🌐 Community Health Files
+
+このリポジトリは GitHub の [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) 機能を活用しています:
+
+- `.github/` ディレクトリ配下のファイルが全リポジトリから自動参照される
+- 各リポジトリに同名ファイルがある場合、そちらが優先される
+- Issue/PR テンプレート、行動規範、セキュリティポリシーなどを一元管理
+
+### 配置済みファイル
+
+- Issue Templates (`ISSUE_TEMPLATE/*.yml`) - バグ報告、機能要望、トピック投稿
+- Pull Request Template (`PULL_REQUEST_TEMPLATE.md`) - PRチェックリスト
+- Code of Conduct (`CODE_of_CONDUCT.md`, `CODE_of_CONDUCT.ja.md`) - 行動規範
+- Security Policy (`SECURITY.md`) - 脆弱性報告手順
+- Funding (`FUNDING.yml`) - スポンサーリンク設定
+
+### コミュニティガイドライン
+
+- [行動規範 (Code of Conduct)](.github/CODE_of_CONDUCT.md) - コミュニティの行動規範
+- [セキュリティポリシー (Security Policy)](.github/SECURITY.md) - 脆弱性報告手順
+
 ## 📚 詳細情報
 
 技術的な詳細や AI 開発ガイドは [`CLAUDE.md`](./CLAUDE.md) を参照してください。
 
 ## 📄 ライセンス
+
+- **ライセンス**: MIT License
+- **著作権**: Copyright (c) 2025 atsushifx
+- **所有者**: atsushifx
 
 MIT © Atsushi Furukawa (@atsushifx)
 

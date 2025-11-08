@@ -25,6 +25,8 @@ English | [日本語](README.ja.md)
 <!-- textlint-disable ja-technical-writing/max-comma -->
 
 This repository provides shared development infrastructure actively used in OSS projects.
+Leveraging GitHub's community health files feature, it functions as user-level default templates
+automatically referenced across all repositories.
 It ensures quality through automation rather than manual checks.
 Key features include Issue/PR templates, auto-formatting, linting, security scanning, and Git Hooks.
 
@@ -48,6 +50,44 @@ Key features include Issue/PR templates, auto-formatting, linting, security scan
 4. **Zero Manual Checks** - Two-layer defense with local hooks and CI/CD
 
 ## 🏗 Repository Structure
+
+### Directory Structure
+
+```bash
+.
+├── .github/                    # GitHub community health files
+│   ├── workflows/              # CI/CD workflows
+│   │   ├── ci-secrets-scan.yml
+│   │   └── codeql-actions-only.yml
+│   ├── ISSUE_TEMPLATE/         # Issue templates (YML format)
+│   │   ├── bug_report.yml
+│   │   ├── feature_request.yml
+│   │   ├── open_topic.yml
+│   │   └── config.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── CODE_of_CONDUCT.md
+│   ├── CODE_of_CONDUCT.ja.md
+│   ├── SECURITY.md
+│   └── FUNDING.yml
+├── configs/                    # All linter/formatter configurations
+│   ├── commitlint.config.js
+│   ├── gitleaks.toml
+│   ├── secretlint.config.yaml
+│   ├── .markdownlint.yaml
+│   ├── textlintrc.yaml
+│   └── .textlint/
+├── scripts/                    # Automation scripts
+│   └── prepare-commit-msg.sh
+├── .vscode/                    # VS Code settings
+│   └── cspell.json
+├── .serena/memories/           # AI assistant knowledge base
+├── dprint.jsonc               # Code formatting config
+├── lefthook.yml               # Git hooks management
+├── .editorconfig              # Editor settings
+├── LICENSE / LICENSE.ja       # Repository licenses
+├── README.md / README.ja.md   # Repository documentation
+└── CLAUDE.md                  # AI assistant instructions
+```
 
 ### Core Features
 
@@ -150,11 +190,36 @@ git push
 - `style`: Style changes
 - `deps`: Dependency updates
 
+## 🌐 Community Health Files
+
+This repository leverages GitHub's [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) feature:
+
+- Files in the `.github/` directory are automatically referenced across all repositories
+- Repository-specific files take precedence when they exist
+- Centralized management of Issue/PR templates, code of conduct, and security policies
+
+### Available Files
+
+- Issue Templates (`ISSUE_TEMPLATE/*.yml`) - Bug reports, feature requests, topic discussions
+- Pull Request Template (`PULL_REQUEST_TEMPLATE.md`) - PR checklist
+- Code of Conduct (`CODE_of_CONDUCT.md`, `CODE_of_CONDUCT.ja.md`) - Community code of conduct
+- Security Policy (`SECURITY.md`) - Vulnerability reporting procedures
+- Funding (`FUNDING.yml`) - Sponsor link configuration
+
+### Community Guidelines
+
+- [Code of Conduct](.github/CODE_of_CONDUCT.md) - Community code of conduct
+- [Security Policy](.github/SECURITY.md) - Vulnerability reporting procedures
+
 ## 📚 Detailed Information
 
 For technical details and AI development guide, refer to [`CLAUDE.md`](./CLAUDE.md).
 
 ## 📄 License
+
+- **License**: MIT License
+- **Copyright**: Copyright (c) 2025 atsushifx
+- **Owner**: atsushifx
 
 MIT © Atsushi Furukawa (@atsushifx)
 

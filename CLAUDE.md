@@ -6,12 +6,13 @@
 
 This repository provides shared development infrastructure for OSS projects.
 It enforces consistency through automation rather than documentation.
+Serves as GitHub's community health files repository for user-level default templates.
 
 ## 技術スタック
 
 <!-- textlint-disable ja-technical-writing/max-comma -->
 
-lefthook, dprint, gitleaks, secretlint,commitlint, markdownlint-cli2, textlint, cspell
+lefthook, dprint, gitleaks, secretlint, commitlint, markdownlint-cli2, textlint, cspell
 
 <!-- textlint-enable -->
 
@@ -21,6 +22,44 @@ lefthook, dprint, gitleaks, secretlint,commitlint, markdownlint-cli2, textlint, 
 2. **Automate Everything** - Linters, formatters, and hooks prevent issues before commit
 3. **AI-Powered Workflow** - Commit messages and documentation are AI-generated
 4. **Zero Manual Checks** - CI/CD catches what local hooks miss
+
+## リポジトリ構造
+
+```bash
+.
+├── .github/                    # GitHub community health files
+│   ├── workflows/              # CI/CD workflows
+│   │   ├── ci-secrets-scan.yml
+│   │   └── codeql-actions-only.yml
+│   ├── ISSUE_TEMPLATE/         # Issue templates (YML format)
+│   │   ├── bug_report.yml
+│   │   ├── feature_request.yml
+│   │   ├── open_topic.yml
+│   │   └── config.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── CODE_of_CONDUCT.md
+│   ├── CODE_of_CONDUCT.ja.md
+│   ├── SECURITY.md
+│   └── FUNDING.yml
+├── configs/                    # All linter/formatter configurations
+│   ├── commitlint.config.js
+│   ├── gitleaks.toml
+│   ├── secretlint.config.yaml
+│   ├── .markdownlint.yaml
+│   ├── textlintrc.yaml
+│   └── .textlint/
+├── scripts/                    # Automation scripts
+│   └── prepare-commit-msg.sh
+├── .vscode/                    # VS Code settings
+│   └── cspell.json
+├── .serena/memories/           # AI assistant knowledge base
+├── dprint.jsonc               # Code formatting config
+├── lefthook.yml               # Git hooks management
+├── .editorconfig              # Editor settings
+├── LICENSE / LICENSE.ja       # Repository licenses
+├── README.md / README.ja.md   # Repository documentation
+└── CLAUDE.md                  # AI assistant instructions (this file)
+```
 
 ## 禁止事項
 
@@ -76,13 +115,40 @@ git commit              # Commit with AI-generated message
 | **CI/CD**      | Secret scan        | `.github/workflows/ci-secrets-scan.yml`     |
 |                | CodeQL             | `.github/workflows/codeql-actions-only.yml` |
 
-## 詳細ドキュメント
+## リポジトリ情報
 
-詳細は `.serena/memories/` を参照:
+- Owner: atsushifx
+- License: MIT License
+- Copyright: (c) 2025 atsushifx
 
-- `project_overview.md` - プロジェクト詳細
-- `tech_stack.md` - 技術スタック詳細
-- `code_style_and_conventions.md` - コーディング規約
-- `suggested_commands.md` - コマンドリファレンス
+## Community Health Files
+
+このリポジトリは GitHub の community health files 機能を活用:
+
+- `.github/` ディレクトリ配下のファイルが全リポジトリから自動参照される
+- 各リポジトリに同名ファイルがある場合、そちらが優先される
+- Issue/PR テンプレート、行動規範、セキュリティポリシーなどを一元管理
+
+**配置済み:**
+
+- Issue Templates (`ISSUE_TEMPLATE/*.yml`)
+- Pull Request Template (`PULL_REQUEST_TEMPLATE.md`)
+- Code of Conduct (`CODE_of_CONDUCT.md`, `CODE_of_CONDUCT.ja.md`)
+- Security Policy (`SECURITY.md`)
+- Funding (`FUNDING.yml`)
+
+## コミュニティガイドライン
+
+- [行動規範 (Code of Conduct)](.github/CODE_of_CONDUCT.md) - Community code of conduct
+- [セキュリティポリシー (Security Policy)](.github/SECURITY.md) - Vulnerability reporting procedures
+
+## 詳細ドキュメント (Serena Memories)
+
+プロジェクトの詳細情報は `.serena/memories/` に格納されています。
+
+- `project_overview.md` - プロジェクト詳細・目的・構成
+- `tech_stack.md` - 技術スタック詳細・ツール統合フロー
+- `code_style_and_conventions.md` - コーディング規約・命名規則
+- `suggested_commands.md` - コマンドリファレンス・日常操作
 - `task_completion_checklist.md` - タスク完了チェックリスト
-- `windows_system_utilities.md` - システムユーティリティ
+- `windows_system_utilities.md` - Windows 固有のユーティリティ・コマンド

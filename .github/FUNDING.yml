@@ -1,9 +1,18 @@
+# src: ./.github/FUNDING.yml
+# @(#) : Sponsor configuration for GitHub
+#
+# Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+#
+# Reference: https://docs.github.com/en/sponsors/getting-started-with-github-sponsors
+
 github: atsushifx
 ko_fi: atsushifx
 
-<!--
 # Unused funding platforms (commented out for future use)
-
+#
 # patreon: your-patreon-username
 # open_collective: your-open-collective-username
 # tidelift: npm/your-package-name
@@ -12,4 +21,3 @@ ko_fi: atsushifx
 # issuehunt: your-issuehunt-username
 # otechie: your-otechie-username
 # custom: ['link1', 'link2']
--->

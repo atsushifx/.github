@@ -1,140 +1,88 @@
 # CLAUDE.md
 
-## Project Philosophy
+## プロジェクト
+
+共有開発インフラ - 自動化による OSS 品質保証:
 
 This repository provides shared development infrastructure for OSS projects.
 It enforces consistency through automation rather than documentation.
 
-**Core Principles:**
+## 技術スタック
 
-1. Configuration as Truth - All rules live in config files, not documentation
-2. Automate Everything - Linters, formatters, and hooks prevent issues before commit
-3. AI-Powered Workflow - Commit messages and documentation are AI-generated
-4. Zero Manual Checks - CI/CD catches what local hooks miss
+<!-- textlint-disable ja-technical-writing/max-comma -->
 
-**Working with AI:**
+lefthook, dprint, gitleaks, secretlint,commitlint, markdownlint-cli2, textlint, cspell
 
-- Trust automated tools over manual inspection
-- Rely on pre-commit hooks to enforce standards
-- Use AI-generated commit messages (scripts/prepare-commit-msg.sh)
-- Let linters define code style, not personal preference
+<!-- textlint-enable -->
 
-**Non-Negotiable Rules:**
+## コア原則
+
+1. **Configuration as Truth** - All rules live in config files, not documentation
+2. **Automate Everything** - Linters, formatters, and hooks prevent issues before commit
+3. **AI-Powered Workflow** - Commit messages and documentation are AI-generated
+4. **Zero Manual Checks** - CI/CD catches what local hooks miss
+
+## 禁止事項
 
 - Never bypass pre-commit hooks (--no-verify)
 - Never commit secrets (gitleaks will block)
 - Never manually format code (dprint handles it)
 - Always follow Conventional Commits format
 
----
-
-## Technical Context
-
-### Tech Stack
-
-- Git Hooks: lefthook
-- Secret Scanning: gitleaks, secretlint
-- Commit Validation: commitlint
-- Code Formatting: dprint
-- Markdown Linting: markdownlint-cli2
-- Japanese Text: textlint
-- Spell Checking: cspell
-
-### Project Structure
+## 重要コマンド
 
 ```bash
-configs/              # All linter/formatter configurations
-scripts/              # Automation scripts (commit message generation)
-.github/workflows/    # CI/CD workflows
-.github/ISSUE_TEMPLATE/  # Issue templates
-.github/PULL_REQUEST_TEMPLATE/  # PR templates
+lefthook install        # Install git hooks
+dprint fmt              # Format all code
+git commit              # Commit with AI-generated message
 ```
 
-### Essential Commands
+## Commit Types
 
-```bash
-# Setup
-lefthook install                    # Install git hooks
+### Standard
 
-# Development
-dprint fmt                          # Format all code
-lefthook run pre-commit            # Run hooks manually
+- `feat`: New features
+- `fix`: Bug fixes
+- `chore`: Maintenance tasks
+- `docs`: Documentation
+- `test`: Tests
+- `refactor`: Code restructuring
+- `perf`: Performance improvements
+- `ci`: CI/CD changes
 
-# Commit
-git add . && git commit            # Auto-generates message via AI
-```
+### Custom
 
-### Commit Types
+- `config`: Configuration changes
+- `release`: Release commits
+- `merge`: Merge commits
+- `build`: Build system changes
+- `style`: Code style changes
+- `deps`: Dependency updates
 
-Standard:
+## 設定ファイル
 
-- `feat` - New features
-- `fix` - Bug fixes
-- `chore` - Maintenance tasks
-- `docs` - Documentation
-- `test` - Tests
-- `refactor` - Code restructuring
-- `perf` - Performance improvements
-- `ci` - CI/CD changes
+| Category       | Tool               | Config File                                 |
+| -------------- | ------------------ | ------------------------------------------- |
+| **Formatting** | dprint             | `dprint.jsonc`                              |
+|                | EditorConfig       | `.editorconfig`                             |
+| **Linting**    | markdownlint       | `configs/.markdownlint.yaml`                |
+|                | textlint           | `configs/textlintrc.yaml`                   |
+|                | cspell             | `.vscode/cspell.json`                       |
+| **Git Hooks**  | lefthook           | `lefthook.yml`                              |
+| **Commit**     | commitlint         | `configs/commitlint.config.js`              |
+|                | prepare-commit-msg | `scripts/prepare-commit-msg.sh`             |
+| **Security**   | gitleaks           | `configs/gitleaks.toml`                     |
+|                | secretlint         | `configs/secretlint.config.yaml`            |
+| **CI/CD**      | Secret scan        | `.github/workflows/ci-secrets-scan.yml`     |
+|                | CodeQL             | `.github/workflows/codeql-actions-only.yml` |
 
-Custom:
+## 詳細ドキュメント
 
-- `config` - Configuration changes
-- `release` - Release commits
-- `merge` - Merge commits
-- `build` - Build system changes
-- `style` - Code style changes
-- `deps` - Dependency updates
+詳細は `.serena/memories/` を参照:
 
-## Configuration Reference
-
-### Linting & Formatting
-
-Code formatting:
-
-- dprint: `dprint.jsonc`,
-- \<Editor>: `.editorconfig`
-
-Markdown linting:
-
-- markdownlint-cli2: `configs/.markdownlint.yaml`
-
-Japanese text linting:
-
-- textlint: `configs/textlintrc.yaml`
-
-Spell checking:
-
-- cspell: `.vscode/cspell.json`
-
-### Git Workflow
-
-Hooks management:
-
-- lefthook: `lefthook.yml`
-
-Commit validation:
-
-- commitlint: `configs/commitlint.config.js`
-
-Secret scanning:
-
-- gitleaks: `configs/gitleaks.toml`
-- secretlint: `configs/secretlint.config.yaml`
-
-### CI/CD
-
-Secret scanning:
-
-- gitleaks: `.github/workflows/ci-secrets-scan.yml`, `configs/gitleaks.toml`
-
-### External Dependencies
-
-Spell checking:
-
-- cspell: `${XDG_CONFIG_HOME}/vscode/cspell.config.json`
-
-Commit message generation:
-
-- prepare-commit-msg.sh:
-- commit-message-generator: `~/.claude/plugins/`
+- `project_overview.md` - プロジェクト詳細
+- `tech_stack.md` - 技術スタック詳細
+- `code_style_and_conventions.md` - コーディング規約
+- `suggested_commands.md` - コマンドリファレンス
+- `task_completion_checklist.md` - タスク完了チェックリスト
+- `windows_system_utilities.md` - システムユーティリティ

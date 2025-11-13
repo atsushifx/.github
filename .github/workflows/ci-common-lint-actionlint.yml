@@ -1,0 +1,70 @@
+# src: ./.github/workflows/ci-common-lint-actionlint.yml
+# @(#) : GitHub Actions workflow for actionlint validation
+#
+# Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+#
+# This software is released under the MIT License.
+# https://opensource.org/licenses/MIT
+
+name: Common CI Actionlint
+
+# Minimal permissions following security best practices
+permissions:
+  contents: read
+
+# Workflow triggers
+on:
+  # Run on push to main branch
+  push:
+    branches:
+      - main
+  # Run on pull requests to main or develop
+  pull_request:
+    branches: [main, master]
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+# Environment variables for version management
+env:
+  ACTIONLINT_VERSION: 1.7.8
+
+jobs:
+  actionlint:
+    name: Lint GitHub Actions workflows
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup actionlint binary
+      - name: Setup actionlint
+        uses: supplypike/setup-bin@v4
+        with:
+          name: actionlint
+          version: ${{ env.ACTIONLINT_VERSION }}
+          uri: https://github.com/rhysd/actionlint/releases/download/v${{ env.ACTIONLINT_VERSION }}/actionlint_${{ env.ACTIONLINT_VERSION }}_linux_amd64.tar.gz
+
+      # Step 4: Run actionlint with JSON output
+      - name: Run actionlint
+        id: actionlint
+        run: |
+          mkdir -p .github/report
+
+          set +e
+          actionlint -config-file ./configs/actionlint.yaml -color 2>&1 | tee .github/report/report.log
+          actionlint_status=${PIPESTATUS[0]}
+          set -e
+
+          echo "status=${actionlint_status}" >> "$GITHUB_OUTPUT"
+          exit "${actionlint_status}"
+
+      # Step 5: Upload error report as artifact (only on failure)
+      - name: Upload actionlint report
+        if: failure() && steps.actionlint.outputs.status != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: actionlint-report
+          path: .github/report/report.json
+          retention-days: 30

@@ -1,227 +1,108 @@
 ---
-header:
-  - src: README.md
-  - @(#): .github Shared Development Infrastructure
 title: .github - Shared Development Infrastructure
 description: Common development infrastructure ensuring OSS quality through automation - Configuration as Truth
-version: 1.0.0
-created: 2025-11-08
-authors:
-  - atsushifx
-changes:
-  - 2025-11-08: Initial version
-copyright:
-  - Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
-  - This software is released under the MIT License.
-  - https://opensource.org/licenses/MIT
 ---
+
+<!--
+Document Metadata:
+- Version: 1.0.0
+- Created: 2025-11-08
+- Author: atsushifx
+- Last Updated: 2025-11-14
+
+Changelog:
+- 2025-11-14: Major simplification aligned with CLAUDE.md, detailed info delegated to CLAUDE.md
+- 2025-11-08: Initial version
+
+Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+This software is released under the MIT License.
+https://opensource.org/licenses/MIT
+-->
 
 English | [日本語](README.ja.md)
 
-## 🛠 `.github` Shared Development Infrastructure
+# 🛠 `.github` Shared Development Infrastructure
 
-## OSS Quality Assurance Through Automation - Enforce Quality via Configuration, Not Documentation
+**Common Configuration Repository for All atsushifx Repositories**
 
-<!-- textlint-disable ja-technical-writing/max-comma -->
+This repository is a **shared configuration repository** leveraging GitHub's [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) feature.
+It is **automatically referenced** by all repositories under atsushifx, providing Issue/PR templates, code of conduct, security policies, and more in a centralized manner.
 
-This repository provides shared development infrastructure actively used in OSS projects.
-Leveraging GitHub's community health files feature, it functions as user-level default templates
-automatically referenced across all repositories.
-It ensures quality through automation rather than manual checks.
-Key features include Issue/PR templates, auto-formatting, linting, security scanning, and Git Hooks.
+> **Important**: This repository is not meant to be "used" directly, but rather "automatically referenced" by other repositories.
 
-<!-- textlint-enable -->
+## 📖 Role of This Repository
 
-## 📖 Purpose of This Repository
+### Automatically Provided to All Repositories
 
-### Problems Solved
+Through GitHub's community health files feature, the following files become **automatically available** to all repositories under atsushifx:
 
-- Inconsistent code style
-- Varying quality of commit messages
-- Security risks (accidental commits of secrets)
-- Increased review burden
-- Documentation maintenance overhead
+- 📋 **Issue Templates** - Templates for bug reports, feature requests, and topic discussions
+- 📄 **Pull Request Template** - Checklist for PR creation
+- 🤝 **Code of Conduct** - Community code of conduct (Japanese and English)
+- 🔒 **Security Policy** - Vulnerability reporting procedures
+- 💖 **Funding** - Sponsor link configuration
 
-### Approach
+If a repository has a file with the same name, that file takes precedence.
 
-1. **Configuration as Truth** - Rules live in config files, no documentation needed
-2. **Automate Everything** - Formatters, linters, and hooks prevent issues before they occur
-3. **AI-Powered Workflow** - Commit messages and documentation are AI-generated
-4. **Zero Manual Checks** - Two-layer defense with local hooks and CI/CD
+### Exclusive to This Repository
 
-## 🏗 Repository Structure
+The following are tools and configurations for **quality management of the `.github` repository itself**:
 
-### Directory Structure
+- ⚙️ **configs/** - Linter/formatter configurations for this repository
+- 🔧 **dprint.jsonc, lefthook.yml** - Formatting and Git Hooks settings for this repository
+- 📚 **CLAUDE.md** - AI assistant instructions for developing this repository
 
-```bash
-.
-├── .github/                    # GitHub community health files
-│   ├── workflows/              # CI/CD workflows
-│   │   ├── ci-secrets-scan.yml
-│   │   └── codeql-actions-only.yml
-│   ├── ISSUE_TEMPLATE/         # Issue templates (YML format)
-│   │   ├── bug_report.yml
-│   │   ├── feature_request.yml
-│   │   ├── open_topic.yml
-│   │   └── config.yml
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   ├── CODE_of_CONDUCT.md
-│   ├── CODE_of_CONDUCT.ja.md
-│   ├── SECURITY.md
-│   └── FUNDING.yml
-├── configs/                    # All linter/formatter configurations
-│   ├── commitlint.config.js
-│   ├── gitleaks.toml
-│   ├── secretlint.config.yaml
-│   ├── .markdownlint.yaml
-│   ├── textlintrc.yaml
-│   └── .textlint/
-├── scripts/                    # Automation scripts
-│   └── prepare-commit-msg.sh
-├── .vscode/                    # VS Code settings
-│   └── cspell.json
-├── .serena/memories/           # AI assistant knowledge base
-├── dprint.jsonc               # Code formatting config
-├── lefthook.yml               # Git hooks management
-├── .editorconfig              # Editor settings
-├── LICENSE / LICENSE.ja       # Repository licenses
-├── README.md / README.ja.md   # Repository documentation
-└── CLAUDE.md                  # AI assistant instructions
+If you want to use these configurations in other repositories, please **copy and customize them individually** for each repository.
+
+## 🌐 How Community Health Files Work
+
+```
+atsushifx/.github (this repository)
+├── .github/
+│   ├── ISSUE_TEMPLATE/        ← Available to all repositories
+│   ├── PULL_REQUEST_TEMPLATE.md  ← Available to all repositories
+│   ├── CODE_of_CONDUCT.md     ← Available to all repositories
+│   └── SECURITY.md            ← Available to all repositories
+└── configs/                   ← Exclusive to this repository
+
+atsushifx/example-project
+└── (no files)
+    → Templates from .github repository are automatically applied
+
+atsushifx/another-project
+└── .github/
+    └── ISSUE_TEMPLATE/        ← This takes precedence
 ```
 
-### Core Features
+### Conditions for Automatic Reference
 
-| Category       | Feature                      | What's Provided                             |
-| -------------- | ---------------------------- | ------------------------------------------- |
-| **Templates**  | Issue/PR                     | Bug reports, feature requests, PR checklist |
-| **Formatting** | dprint                       | Auto-formatting for Markdown/JSON/YAML/TOML |
-| **Lint**       | markdownlint/textlint/cspell | Document quality checks, spell checking     |
-| **Security**   | gitleaks/secretlint          | Secret detection, commit blocking           |
-| **Git Hooks**  | lefthook                     | Pre-commit automated checks                 |
-| **Commit**     | commitlint                   | Conventional Commits enforcement            |
-| **CI/CD**      | GitHub Actions               | Secret scanning, CodeQL                     |
+1. Repository must be under the atsushifx user
+2. The file must not exist in the individual repository
+3. Applies to both public and private repositories
 
-### Configuration Files
+For details, see the [GitHub official documentation](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file).
 
-| Category       | Tool               | Config File                                 |
-| -------------- | ------------------ | ------------------------------------------- |
-| **Formatting** | dprint             | `dprint.jsonc`                              |
-|                | EditorConfig       | `.editorconfig`                             |
-| **Lint**       | markdownlint       | `configs/.markdownlint.yaml`                |
-|                | textlint           | `configs/textlintrc.yaml`                   |
-|                | cspell             | `.vscode/cspell.json`                       |
-| **Git Hooks**  | lefthook           | `lefthook.yml`                              |
-| **Commit**     | commitlint         | `configs/commitlint.config.js`              |
-|                | prepare-commit-msg | `scripts/prepare-commit-msg.sh`             |
-| **Security**   | gitleaks           | `configs/gitleaks.toml`                     |
-|                | secretlint         | `configs/secretlint.config.yaml`            |
-| **CI/CD**      | Secret scan        | `.github/workflows/ci-secrets-scan.yml`     |
-|                | CodeQL             | `.github/workflows/codeql-actions-only.yml` |
+## 🔧 Developing This Repository
 
-## 🚀 How to Use
+If you need to edit or develop this repository itself, please refer to **[CLAUDE.md](./CLAUDE.md)**.
 
-### 1. Setup
+CLAUDE.md includes:
 
-```bash
-# Place this repository in your project's .github/ directory
-git clone https://github.com/atsushifx/.github.git
+- Technical stack for this repository (dprint, lefthook, gitleaks, etc.)
+- Explanation of configuration files under configs/
+- Git Hooks setup instructions
+- Commit conventions and formatting rules
 
-# Install Git Hooks
-lefthook install
+## 📚 Related Documentation
 
-# Verify formatting configuration
-dprint fmt
-```
+- **[CLAUDE.md](./CLAUDE.md)** - Detailed developer guide
+- **[CODE_OF_CONDUCT.md](.github/CODE_of_CONDUCT.md)** - Community code of conduct
+- **[SECURITY.md](.github/SECURITY.md)** - Security policy
 
-### 2. Daily Usage
+## License
 
-```bash
-# Write code → dprint auto-formats
-# (.editorconfig applied on save)
-
-# Commit → Hooks auto-check
-git commit
-# - gitleaks detects secrets
-# - markdownlint/textlint check documents
-# - commitlint validates messages
-# - AI-generated messages prepared
-
-# Push → CI performs final checks
-git push
-```
-
-### 3. Using Templates
-
-- Issue Creation: Template selection automatically available in repository's Issues tab
-  - Bug Report (`bug_report.md`)
-  - Feature Request (`feature_request.md`)
-  - General Topic (`topic.md`)
-
-- PR Creation: Checklist template automatically applied when opening a PR
-
-## 📋 Important Usage Rules
-
-### Prohibited Actions
-
-- Don't bypass hooks with `--no-verify`
-- Don't commit secrets (gitleaks will block)
-- Don't manually format code (leave it to dprint)
-- Follow Conventional Commits format
-
-### Commit Types
-
-**Standard Types:**
-
-- `feat`: New features
-- `fix`: Bug fixes
-- `docs`: Documentation
-- `chore`: Maintenance tasks
-- `test`: Tests
-- `refactor`: Refactoring
-- `perf`: Performance improvements
-- `ci`: CI/CD changes
-
-**Custom Types:**
-
-- `config`: Configuration changes
-- `release`: Releases
-- `merge`: Merges
-- `build`: Build system
-- `style`: Style changes
-- `deps`: Dependency updates
-
-## 🌐 Community Health Files
-
-This repository leverages GitHub's [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) feature:
-
-- Files in the `.github/` directory are automatically referenced across all repositories
-- Repository-specific files take precedence when they exist
-- Centralized management of Issue/PR templates, code of conduct, and security policies
-
-### Available Files
-
-- Issue Templates (`ISSUE_TEMPLATE/*.yml`) - Bug reports, feature requests, topic discussions
-- Pull Request Template (`PULL_REQUEST_TEMPLATE.md`) - PR checklist
-- Code of Conduct (`CODE_of_CONDUCT.md`, `CODE_of_CONDUCT.ja.md`) - Community code of conduct
-- Security Policy (`SECURITY.md`) - Vulnerability reporting procedures
-- Funding (`FUNDING.yml`) - Sponsor link configuration
-
-### Community Guidelines
-
-- [Code of Conduct](.github/CODE_of_CONDUCT.md) - Community code of conduct
-- [Security Policy](.github/SECURITY.md) - Vulnerability reporting procedures
-
-## 📚 Detailed Information
-
-For technical details and AI development guide, refer to [`CLAUDE.md`](./CLAUDE.md).
-
-## 📄 License
-
-- **License**: MIT License
-- **Copyright**: Copyright (c) 2025 atsushifx
-- **Owner**: atsushifx
-
-MIT © Atsushi Furukawa (@atsushifx)
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+Copyright (c) 2025 atsushifx
 
 ## 🙏 Thanks
 

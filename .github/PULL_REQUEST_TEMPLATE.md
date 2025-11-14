@@ -1,11 +1,3 @@
----
-name: Pull Request Template
-description: Pull Request format for contributing changes
-title: "feat: [short description]"
-labels: ["pull request"]
-assignees: ["atsushifx"]
----
-
 ## ✨ Overview
 
 Briefly explain what this Pull Request changes and why.

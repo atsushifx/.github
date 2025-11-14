@@ -1,231 +1,112 @@
 ---
-header:
-  - src: README.ja.md
-  - @(#): .github Shared Development Infrastructure
 title: .github - 共有開発インフラ
 description: OSS品質を自動化で保証する共通開発基盤 - Configuration as Truth
-version: 1.0.0
-created: 2025-11-08
-authors:
-  - atsushifx
-changes:
-  - 2025-11-08: 初版作成
-copyright:
-  - Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
-  - This software is released under the MIT License.
-  - https://opensource.org/licenses/MIT
 ---
 
-<!-- textlint-disable ja-technical-writing/ja-no-mixed-period -->
+<!--
+Document Metadata:
+- Version: 1.0.0
+- Created: 2025-11-08
+- Author: atsushifx
+- Last Updated: 2025-11-14
+
+Changelog:
+- 2025-11-14: CLAUDE.mdに合わせて大幅簡素化、詳細はCLAUDE.mdへ誘導
+- 2025-11-08: 初版作成
+
+Copyright (c) 2025 atsushifx <https://github.com/atsushifx>
+This software is released under the MIT License.
+https://opensource.org/licenses/MIT
+-->
 
 [English](README.md) | 日本語
 
-<!-- textlint-enable -->
+# 🛠 `.github` 共有開発インフラ
 
-## 🛠 `.github` 共有開発インフラ
+**atsushifx 配下全リポジトリの共通設定リポジトリ**
 
-## 自動化によるOSS品質保証 - ドキュメントではなく、設定で品質を強制する開発基盤
+このリポジトリは、GitHub の [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) 機能を活用した **共通設定リポジトリ** です。
+atsushifx 配下の全リポジトリから **自動的に参照** され、Issue/PR テンプレート、行動規範、セキュリティポリシーなどを一元提供します。
 
-このリポジトリは、OSS プロジェクトで実際に運用されている共通の開発インフラです。
-GitHub の community health files 機能を活用し、全リポジトリから自動参照される
-ユーザーレベルのデフォルトテンプレートとして機能します。
-Issue・PR テンプレート、自動フォーマット、Lint、セキュリティスキャン、Git Hooks など、
-品質を手動チェックではなく自動化で保証する仕組みを提供します。
+> **重要**: このリポジトリは「使う」ものではなく、他のリポジトリが「自動的に参照する」ものです。
 
-## 📖 このリポジトリの目的
+## 📖 このリポジトリの役割
 
-### 解決する課題
+### 全リポジトリに自動提供されるもの
 
-- コードスタイルの不統一
-- コミットメッセージの品質ばらつき
-- セキュリティリスク(秘密情報の誤コミット)
-- レビュー負荷の増大
-- ドキュメント整備の手間
+GitHub の community health files 機能により、以下のファイルが atsushifx 配下の全リポジトリから **自動的に利用可能** になります：
 
-### アプローチ
+- 📋 **Issue Templates** - バグ報告、機能要望、トピック投稿用テンプレート
+- 📄 **Pull Request Template** - PR作成時のチェックリスト
+- 🤝 **Code of Conduct** - コミュニティ行動規範（日本語・英語）
+- 🔒 **Security Policy** - 脆弱性報告手順
+- 💖 **Funding** - スポンサーリンク設定
 
-1. **Configuration as Truth** - ルールは設定ファイルに記述、ドキュメント不要
-2. **Automate Everything** - フォーマッタ・Linter・Hooks で問題を事前防止
-3. **AI-Powered Workflow** - コミットメッセージ・ドキュメントは AI 生成
-4. **Zero Manual Checks** - ローカル Hooks と CI/CD の二段構え
+各リポジトリに同名ファイルがある場合は、そちらが優先されます。
 
-## 🏗 リポジトリ構成
+### このリポジトリ専用のもの
 
-### リポジトリ構造
+以下は `.github` リポジトリ **自体の品質管理** のためのツール・設定です：
 
-```bash
-.
-├── .github/                    # GitHub community health files
-│   ├── workflows/              # CI/CD workflows
-│   │   ├── ci-secrets-scan.yml
-│   │   └── codeql-actions-only.yml
-│   ├── ISSUE_TEMPLATE/         # Issue templates (YML format)
-│   │   ├── bug_report.yml
-│   │   ├── feature_request.yml
-│   │   ├── open_topic.yml
-│   │   └── config.yml
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   ├── CODE_of_CONDUCT.md
-│   ├── CODE_of_CONDUCT.ja.md
-│   ├── SECURITY.md
-│   └── FUNDING.yml
-├── configs/                    # 各種Linter/Formatter設定
-│   ├── commitlint.config.js
-│   ├── gitleaks.toml
-│   ├── secretlint.config.yaml
-│   ├── .markdownlint.yaml
-│   ├── textlintrc.yaml
-│   └── .textlint/
-├── scripts/                    # 自動化スクリプト
-│   └── prepare-commit-msg.sh
-├── .vscode/                    # VS Code設定
-│   └── cspell.json
-├── .serena/memories/           # AI アシスタント知識ベース
-├── dprint.jsonc               # コードフォーマット設定
-├── lefthook.yml               # Git Hooks管理
-├── .editorconfig              # エディタ設定
-├── LICENSE / LICENSE.ja       # ライセンス
-├── README.md / README.ja.md   # リポジトリドキュメント
-└── CLAUDE.md                  # AI アシスタント指示書
+- ⚙️ **configs/** - このリポジトリ用の linter/formatter 設定
+- 🔧 **dprint.jsonc, lefthook.yml** - このリポジトリのフォーマット・Git Hooks設定
+- 📚 **CLAUDE.md** - このリポジトリ開発用AIアシスタント指示書
+
+他のリポジトリでこれらの設定を使う場合は、各リポジトリに **個別にコピー・カスタマイズ** してください。
+
+## 🌐 Community Health Files の仕組み
+
+```
+atsushifx/.github (このリポジトリ)
+├── .github/
+│   ├── ISSUE_TEMPLATE/        ← 全リポジトリで利用可能
+│   ├── PULL_REQUEST_TEMPLATE.md  ← 全リポジトリで利用可能
+│   ├── CODE_of_CONDUCT.md     ← 全リポジトリで利用可能
+│   └── SECURITY.md            ← 全リポジトリで利用可能
+└── configs/                   ← このリポジトリ専用
+
+atsushifx/example-project
+└── (ファイルなし)
+    → .github リポジトリのテンプレートが自動適用される
+
+atsushifx/another-project
+└── .github/
+    └── ISSUE_TEMPLATE/        ← こちらが優先される
 ```
 
-### コア機能
+### 自動参照の条件
 
-| カテゴリ         | 機能                         | 提供するもの                         |
-| ---------------- | ---------------------------- | ------------------------------------ |
-| **テンプレート** | Issue/PR                     | バグ報告・機能提案・PRチェックリスト |
-| **フォーマット** | dprint                       | Markdown/JSON/YAML/TOML自動整形      |
-| **Lint**         | markdownlint/textlint/cspell | 文書品質チェック・スペルチェック     |
-| **セキュリティ** | gitleaks/secretlint          | 秘密情報検出・コミットブロック       |
-| **Git Hooks**    | lefthook                     | コミット前自動チェック               |
-| **Commit**       | commitlint                   | Conventional Commits強制             |
-| **CI/CD**        | GitHub Actions               | 秘密スキャン・CodeQL                 |
+1. atsushifx ユーザー配下のリポジトリであること
+2. 該当ファイルが各リポジトリに存在しないこと
+3. パブリック/プライベート問わず適用される
 
-### 設定ファイル一覧
+詳細は [GitHub公式ドキュメント](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) を参照してください。
 
-| カテゴリ         | ツール             | 設定ファイル                                |
-| ---------------- | ------------------ | ------------------------------------------- |
-| **フォーマット** | dprint             | `dprint.jsonc`                              |
-|                  | EditorConfig       | `.editorconfig`                             |
-| **Lint**         | markdownlint       | `configs/.markdownlint.yaml`                |
-|                  | textlint           | `configs/textlintrc.yaml`                   |
-|                  | cspell             | `.vscode/cspell.json`                       |
-| **Git Hooks**    | lefthook           | `lefthook.yml`                              |
-| **Commit**       | commitlint         | `configs/commitlint.config.js`              |
-|                  | prepare-commit-msg | `scripts/prepare-commit-msg.sh`             |
-| **セキュリティ** | gitleaks           | `configs/gitleaks.toml`                     |
-|                  | secretlint         | `configs/secretlint.config.yaml`            |
-| **CI/CD**        | Secret scan        | `.github/workflows/ci-secrets-scan.yml`     |
-|                  | CodeQL             | `.github/workflows/codeql-actions-only.yml` |
+## 🔧 このリポジトリの開発
 
-## 🚀 使い方
+このリポジトリ自体を編集・開発する場合は、**[CLAUDE.md](./CLAUDE.md)** を参照してください。
 
-### 1. セットアップ
+CLAUDE.mdには以下が記載されています：
 
-```bash
-# このリポジトリをプロジェクトの.github/に配置
-git clone https://github.com/atsushifx/.github.git
+- このリポジトリの技術スタック（dprint, lefthook, gitleaks等）
+- configs/配下の設定ファイルの説明
+- Git Hooksのセットアップ方法
+- コミット規約とフォーマットルール
 
-# Git Hooksをインストール
-lefthook install
+## 📚 関連ドキュメント
 
-# フォーマット設定を確認
-dprint fmt
-```
+- **[CLAUDE.md](./CLAUDE.md)** - 開発者向け詳細ガイド
+- **[CODE_OF_CONDUCT.ja.md](.github/CODE_of_CONDUCT.ja.md)** - コミュニティ行動規範
+- **[SECURITY.md](.github/SECURITY.md)** - セキュリティポリシー
 
-### 2. 日常的な使い方
+## License
 
-```bash
-# コードを書く → dprintが自動フォーマット
-# (保存時に.editorconfig適用)
-
-# コミット → Hooksが自動チェック
-git commit
-# - gitleaksが秘密情報検出
-# - markdownlint/textlintが文書チェック
-# - commitlintがメッセージ検証
-# - AI生成メッセージが準備される
-
-# プッシュ → CIが最終チェック
-git push
-```
-
-### 3. テンプレート利用
-
-- Issue 作成: リポジトリの Issues タブで自動的にテンプレート選択可能
-  - バグ報告 (`bug_report.md`)
-  - 機能提案 (`feature_request.md`)
-  - 自由トピック (`topic.md`)
-
-- PR 作成: PR を開くとチェックリスト付きテンプレート自動適用
-
-## 📋 重要な使用ルール
-
-### 禁止事項
-
-- `--no-verify`で Hooks をバイパスしない
-- 秘密情報をコミットしない (gitleaks がブロック)
-- 手動でコードフォーマットしない (dprint に任せる)
-- Conventional Commits 形式を守る
-
-### Commit Types
-
-**標準タイプ:**
-
-- `feat`: 新機能
-- `fix`: バグ修正
-- `docs`: ドキュメント
-- `chore`: 雑務・メンテナンス
-- `test`: テスト
-- `refactor`: リファクタリング
-- `perf`: パフォーマンス改善
-- `ci`: CI/CD 変更
-
-**カスタムタイプ:**
-
-- `config`: 設定変更
-- `release`: リリース
-- `merge`: マージ
-- `build`: ビルドシステム
-- `style`: スタイル変更
-- `deps`: 依存関係更新
-
-## 🌐 Community Health Files
-
-このリポジトリは GitHub の [community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file) 機能を活用しています:
-
-- `.github/` ディレクトリ配下のファイルが全リポジトリから自動参照される
-- 各リポジトリに同名ファイルがある場合、そちらが優先される
-- Issue/PR テンプレート、行動規範、セキュリティポリシーなどを一元管理
-
-### 配置済みファイル
-
-- Issue Templates (`ISSUE_TEMPLATE/*.yml`) - バグ報告、機能要望、トピック投稿
-- Pull Request Template (`PULL_REQUEST_TEMPLATE.md`) - PRチェックリスト
-- Code of Conduct (`CODE_of_CONDUCT.md`, `CODE_of_CONDUCT.ja.md`) - 行動規範
-- Security Policy (`SECURITY.md`) - 脆弱性報告手順
-- Funding (`FUNDING.yml`) - スポンサーリンク設定
-
-### コミュニティガイドライン
-
-- [行動規範 (Code of Conduct)](.github/CODE_of_CONDUCT.md) - コミュニティの行動規範
-- [セキュリティポリシー (Security Policy)](.github/SECURITY.md) - 脆弱性報告手順
-
-## 📚 詳細情報
-
-技術的な詳細や AI 開発ガイドは [`CLAUDE.md`](./CLAUDE.md) を参照してください。
-
-## 📄 ライセンス
-
-- **ライセンス**: MIT License
-- **著作権**: Copyright (c) 2025 atsushifx
-- **所有者**: atsushifx
-
-MIT © Atsushi Furukawa (@atsushifx)
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+Copyright (c) 2025 atsushifx
 
 ## 🙏 Thanks
 
-本リポジトリは、下記の AI エージェントのサポートのもと作成・整備されました。
+本リポジトリは、下記の AI エージェントのサポートのもと作成・整備されました：
 
 - 🤖 Elpha（エルファ）
 - 🤖 Kobeni（小紅）

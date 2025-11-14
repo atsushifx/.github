@@ -2,11 +2,17 @@
 
 ## プロジェクト
 
-共有開発インフラ - 自動化による OSS 品質保証:
+共有開発インフラ - 自動化によるOSS品質保証
 
-This repository provides shared development infrastructure for OSS projects.
-It enforces consistency through automation rather than documentation.
-Serves as GitHub's community health files repository for user-level default templates.
+このリポジトリは、設定ファイルとCI/CDによって品質を強制するOSSプロジェクトの共有インフラです。
+GitHubのcommunity health files機能により、全リポジトリから自動参照されます。
+
+## コア原則
+
+1. **Configuration as Truth** - ルールは設定ファイルに、ドキュメントではない
+2. **Automate Everything** - 手動チェックゼロ、ツールが全て実施
+3. **AI-Powered Workflow** - コミットメッセージ/PRは自動生成
+4. **Zero Manual Checks** - ローカルフックで防ぎ、CIで検証
 
 ## 技術スタック
 
@@ -16,118 +22,157 @@ lefthook, dprint, gitleaks, secretlint, commitlint, markdownlint-cli2, textlint,
 
 <!-- textlint-enable -->
 
-## コア原則
+### ツール役割分担
 
-1. **Configuration as Truth** - All rules live in config files, not documentation
-2. **Automate Everything** - Linters, formatters, and hooks prevent issues before commit
-3. **AI-Powered Workflow** - Commit messages and documentation are AI-generated
-4. **Zero Manual Checks** - CI/CD catches what local hooks miss
+- **フォーマット**: dprint が全ファイル処理
+- **リント**: 各種専用ツールが言語別に検証
+- **セキュリティ**: gitleaks + secretlint が二重防御
+- **Git フック**: lefthook が全フック管理
 
-## リポジトリ構造
+### 設定ファイル一覧
 
-```bash
-.
-├── .github/                    # GitHub community health files
-│   ├── workflows/              # CI/CD workflows
-│   │   ├── ci-secrets-scan.yml
-│   │   └── codeql-actions-only.yml
-│   ├── ISSUE_TEMPLATE/         # Issue templates (YML format)
-│   │   ├── bug_report.yml
-│   │   ├── feature_request.yml
-│   │   ├── open_topic.yml
-│   │   └── config.yml
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   ├── CODE_of_CONDUCT.md
-│   ├── CODE_of_CONDUCT.ja.md
-│   ├── SECURITY.md
-│   └── FUNDING.yml
-├── configs/                    # All linter/formatter configurations
-│   ├── commitlint.config.js
-│   ├── gitleaks.toml
-│   ├── secretlint.config.yaml
-│   ├── .markdownlint.yaml
-│   ├── textlintrc.yaml
-│   └── .textlint/
-├── scripts/                    # Automation scripts
-│   └── prepare-commit-msg.sh
-├── .vscode/                    # VS Code settings
-│   └── cspell.json
-├── .serena/memories/           # AI assistant knowledge base
-├── dprint.jsonc               # Code formatting config
-├── lefthook.yml               # Git hooks management
-├── .editorconfig              # Editor settings
-├── LICENSE / LICENSE.ja       # Repository licenses
-├── README.md / README.ja.md   # Repository documentation
-└── CLAUDE.md                  # AI assistant instructions (this file)
-```
+| カテゴリ     | ツール       | 設定ファイル                     |
+| ------------ | ------------ | -------------------------------- |
+| フォーマット | dprint       | `dprint.jsonc`                   |
+|              | EditorConfig | `.editorconfig`                  |
+| リント       | markdownlint | `configs/.markdownlint.yaml`     |
+|              | textlint     | `configs/textlintrc.yaml`        |
+|              | cspell       | `.vscode/cspell.json`            |
+| Git フック   | lefthook     | `lefthook.yml`                   |
+| コミット     | commitlint   | `configs/commitlint.config.js`   |
+| セキュリティ | gitleaks     | `configs/gitleaks.toml`          |
+|              | secretlint   | `configs/secretlint.config.yaml` |
 
 ## 禁止事項
 
-- Never bypass pre-commit hooks (--no-verify)
-- Never commit secrets (gitleaks will block)
-- Never manually format code (dprint handles it)
-- Always follow Conventional Commits format
+- ❌ フック回避 (`--no-verify`)
+- ❌ シークレットコミット (gitleaksでブロック)
+- ❌ 手動フォーマット (dprint に任せる)
+- ❌ mainへの直接push
+- ❌ configs/ディレクトリの不用意な変更
 
 ## 重要コマンド
 
+### 初期セットアップ
+
 ```bash
-lefthook install        # Install git hooks
-dprint fmt              # Format all code
-git commit              # Commit with AI-generated message
+lefthook install        # Git フックをインストール (初回必須)
 ```
 
-## Commit Types
+### 日常的な開発
 
-### Standard
+```bash
+# フォーマット
+dprint fmt              # 全ファイルフォーマット
+dprint check            # フォーマットチェックのみ
 
-- `feat`: New features
-- `fix`: Bug fixes
-- `chore`: Maintenance tasks
-- `docs`: Documentation
-- `test`: Tests
-- `refactor`: Code restructuring
-- `perf`: Performance improvements
-- `ci`: CI/CD changes
+# コミット
+git add .               # 変更をステージング
+git commit              # AI生成メッセージでコミット
+git commit -m "type: description"  # 手動コミット (Conventional Commits形式)
+```
 
-### Custom
+### セキュリティスキャン
 
-- `config`: Configuration changes
-- `release`: Release commits
-- `merge`: Merge commits
-- `build`: Build system changes
-- `style`: Code style changes
-- `deps`: Dependency updates
+```bash
+# ローカルスキャン
+gitleaks protect --config ./configs/gitleaks.toml --staged
+secretlint --secretlintrc ./configs/secretlint.config.yaml .
+```
 
-## 設定ファイル
+### 設定テスト
 
-| Category       | Tool               | Config File                                 |
-| -------------- | ------------------ | ------------------------------------------- |
-| **Formatting** | dprint             | `dprint.jsonc`                              |
-|                | EditorConfig       | `.editorconfig`                             |
-| **Linting**    | markdownlint       | `configs/.markdownlint.yaml`                |
-|                | textlint           | `configs/textlintrc.yaml`                   |
-|                | cspell             | `.vscode/cspell.json`                       |
-| **Git Hooks**  | lefthook           | `lefthook.yml`                              |
-| **Commit**     | commitlint         | `configs/commitlint.config.js`              |
-|                | prepare-commit-msg | `scripts/prepare-commit-msg.sh`             |
-| **Security**   | gitleaks           | `configs/gitleaks.toml`                     |
-|                | secretlint         | `configs/secretlint.config.yaml`            |
-| **CI/CD**      | Secret scan        | `.github/workflows/ci-secrets-scan.yml`     |
-|                | CodeQL             | `.github/workflows/codeql-actions-only.yml` |
+```bash
+# commitlint設定テスト
+echo "feat: test message" | commitlint --config ./configs/commitlint.config.js
 
-## リポジトリ情報
+# dprint設定テスト
+dprint check --config ./dprint.jsonc
 
-- Owner: atsushifx
-- License: MIT License
-- Copyright: (c) 2025 atsushifx
+# 特定フックの手動実行
+lefthook run pre-commit
+```
+
+## プロジェクト構造
+
+```bash
+.
+├── .github/              # GitHub community health files
+│    ├── workflows/       # CI/CD workflows
+│    ├── ISSUE_TEMPLATE/  # Issue templates (YML format)
+│    ├── PULL_REQUEST_TEMPLATE.md
+│    ├── CODE_of_CONDUCT.md
+│    └── SECURITY.md
+├── configs/              # All linter/formatter configurations
+├── scripts/              # Automation scripts
+├── .vscode/              # VS Code settings
+├── dprint.jsonc          # Code formatting config
+├── lefthook.yml          # Git hooks management
+└── .editorconfig         # Editor settings
+```
+
+## コーディング規約
+
+### フォーマット基準 (dprint)
+
+- **行幅**: 120文字
+- **インデント**: 2スペース (タブ禁止)
+- **改行**: LF (`\n`)
+- **引用符**: シングルクォート推奨 (TypeScript/JavaScript)
+
+詳細は、`dprint.jsonc`を参照
+
+### Commit Types (Conventional Commits)
+
+#### 標準タイプ
+
+- `feat`: 新機能
+- `fix`: バグ修正
+- `chore`: メンテナンスタスク
+- `docs`: ドキュメント
+- `test`: テスト
+- `refactor`: コード再構築
+- `perf`: パフォーマンス改善
+- `ci`: CI/CD変更
+
+#### カスタムタイプ
+
+- `config`: 設定変更
+- `release`: リリースコミット
+- `merge`: マージコミット
+- `build`: ビルドシステム変更
+- `style`: コードスタイル変更
+- `deps`: 依存関係更新
+
+## タスク完了チェックリスト
+
+### コミット前
+
+- [ ] `dprint fmt` でフォーマット実行
+- [ ] `dprint check` でフォーマット検証
+- [ ] markdownlint / textlint / cspell 実行 (該当ファイルがある場合)
+- [ ] シークレットが含まれていないことを確認
+- [ ] Conventional Commits形式でコミット
+
+### 設定変更時
+
+- [ ] 設定をテスト実行 (dry-runがあれば利用)
+- [ ] ドキュメント更新 (必要に応じて)
+- [ ] `lefthook run pre-commit` でフック動作確認
+
+## AI協働ルール
+
+1. **設定変更時**: configs/の変更は慎重に。必ずテスト実行
+2. **コミット**: prepare-commit-msg.sh が自動生成。手動編集OK
+3. **PR作成**: AI生成テンプレート使用。Summary/Test planは必須
 
 ## Community Health Files
 
-このリポジトリは GitHub の community health files 機能を活用:
+このリポジトリはGitHubのcommunity health files機能を活用:
 
-- `.github/` ディレクトリ配下のファイルが全リポジトリから自動参照される
+- `.github/`配下のファイルが全リポジトリから自動参照される
 - 各リポジトリに同名ファイルがある場合、そちらが優先される
-- Issue/PR テンプレート、行動規範、セキュリティポリシーなどを一元管理
+- Issue/PRテンプレート、行動規範、セキュリティポリシーなどを一元管理
 
 **配置済み:**
 
@@ -139,16 +184,10 @@ git commit              # Commit with AI-generated message
 
 ## コミュニティガイドライン
 
-- [行動規範 (Code of Conduct)](.github/CODE_of_CONDUCT.md) - Community code of conduct
-- [セキュリティポリシー (Security Policy)](.github/SECURITY.md) - Vulnerability reporting procedures
+- [行動規範](.github/CODE_of_CONDUCT.md) - Community code of conduct
+- [セキュリティポリシー](.github/SECURITY.md) - Vulnerability reporting procedures
 
-## 詳細ドキュメント (Serena Memories)
+## License
 
-プロジェクトの詳細情報は `.serena/memories/` に格納されています。
-
-- `project_overview.md` - プロジェクト詳細・目的・構成
-- `tech_stack.md` - 技術スタック詳細・ツール統合フロー
-- `code_style_and_conventions.md` - コーディング規約・命名規則
-- `suggested_commands.md` - コマンドリファレンス・日常操作
-- `task_completion_checklist.md` - タスク完了チェックリスト
-- `windows_system_utilities.md` - Windows 固有のユーティリティ・コマンド
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+Copyright (c) 2025 atsushifx

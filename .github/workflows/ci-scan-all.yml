@@ -21,6 +21,7 @@ on:
     branches:
       - main
       - master
+      - releases
 
   workflow_dispatch:
 

@@ -41,7 +41,8 @@ $~*
 # sdd
 .cc-sdd/
 
-# CLAUDE.md
+# claude code
+!CLAUDE.md
 .claude/*
 
 # MCP server dependency files

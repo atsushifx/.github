@@ -6,7 +6,7 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-name: CI Scan All
+name: "CI Scan All"
 
 # Minimal permissions following security best practices
 permissions:
@@ -36,10 +36,10 @@ jobs:
     name: Ghalint
     permissions:
       contents: read
-    uses: atsushifx/.github/.github/workflows/ci-common-lint-ghalint.yml@main@r1.0.0
+    uses: atsushifx/.github/.github/workflows/ci-common-lint-ghalint.yml@r1.0.0
 
   scan-gitleaks:
     name: Gitleaks Secret Scan
     permissions:
       contents: read
-    uses: atsushifx/.github/.github/workflows/ci-common-scan-gitleaks.yml@main@r1.0.0
+    uses: atsushifx/.github/.github/workflows/ci-common-scan-gitleaks.yml@r1.0.0

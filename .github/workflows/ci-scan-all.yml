@@ -21,6 +21,7 @@ on:
     branches:
       - main
       - master
+      - releases
 
   workflow_dispatch:
 
@@ -29,16 +30,16 @@ jobs:
     name: Actionlint
     permissions:
       contents: read
-    uses: atsushifx/.github/.github/workflows/ci-common-lint-actionlint.yml@main
+    uses: atsushifx/.github/.github/workflows/ci-common-lint-actionlint.yml@r1.0.0
 
   ghalint:
     name: Ghalint
     permissions:
       contents: read
-    uses: atsushifx/.github/.github/workflows/ci-common-lint-ghalint.yml@main
+    uses: atsushifx/.github/.github/workflows/ci-common-lint-ghalint.yml@main@r1.0.0
 
   scan-gitleaks:
     name: Gitleaks Secret Scan
     permissions:
       contents: read
-    uses: atsushifx/.github/.github/workflows/ci-common-scan-gitleaks.yml@main
+    uses: atsushifx/.github/.github/workflows/ci-common-scan-gitleaks.yml@main@r1.0.0

@@ -101,8 +101,7 @@ jobs:
           mkdir -p .github/report
 
           set +e
-          # ghalint run --log-color always -c ${{ inputs.config-file }} 2>&1 | tee .github/report/report.log
-          ghalint run --log-color always 2>&1 | tee .github/report/report.log
+          ghalint run --log-color always -c ${{ inputs.config-file }} 2>&1 | tee .github/report/report.log
           ghalint_status=${PIPESTATUS[0]}
           set -e
 

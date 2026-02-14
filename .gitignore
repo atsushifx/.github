@@ -35,6 +35,10 @@ $~*
 .env*
 .env.*
 
+# Developer tools
+.tools/
+
+
 ## AI generated files
 
 ## Coding AI depended
